@@ -1,59 +1,110 @@
 package ehu.isad;
 
-import ehu.isad.controller.KautotuKud;
-import ehu.isad.controller.MainKud;
+import ehu.isad.controllers.Controller;
+import ehu.isad.controllers.InformazioKud;
+import ehu.isad.utils.Sarea;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/*
 public class Main extends Application {
-
-  private Parent kautotuUI;
+  @Override
+  public void start(Stage primaryStage) throws Exception{
+    Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
+    primaryStage.setTitle("Hello World");
+    primaryStage.setScene(new Scene(root, 300, 275));
+    primaryStage.show();
+  }
+  public static void main(String[] args) {
+    launch(args);
+  }
+}
+*/
+public class Main extends Application{
+  private Text label;
   private Parent mainUI;
-
+  private Parent informazioaUI;
+  private Controller mainkud;
+  private InformazioKud informaziokud;
   private Stage stage;
-
-  private KautotuKud kautotuKud;
-  private MainKud mainKud;
-
+  private Scene liburuScene;
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage) throws IOException {
 
-    stage = primaryStage;
-    pantailakKargatu();
+    //primaryStage.setTitle("OpenLibrary APIa aztertzen");
 
-    stage.setTitle("Argazki Backup");
-    stage.setScene(new Scene(kautotuUI, 450, 275));
+/*
+    comboBox.setOnAction( e -> {
+      Book book = (Book)comboBox.getValue();
+      try {
+        Book liburua = readFromUrl(book.isbn);
+        this.label.setText( liburua.details.title + "\n" +
+                liburua.details.number_of_pages + "\n" +
+                liburua.details.publishers[0] );
+      } catch (IOException ioException) {
+        ioException.printStackTrace();
+      }
+    });
+*/
+
+    stage=primaryStage;
+    this.pantailaKargatu();
+    stage.setTitle("Liburuen Informazioa API");
+    stage.setScene(new Scene(mainUI));
     stage.show();
   }
 
-  private void pantailakKargatu() throws IOException {
-
-    FXMLLoader loaderKautotu = new FXMLLoader(getClass().getResource("/kautotu.fxml"));
-    kautotuUI = (Parent) loaderKautotu.load();
-    kautotuKud = loaderKautotu.getController();
-    kautotuKud.setMainApp(this);
-
-    FXMLLoader loaderMain = new FXMLLoader(getClass().getResource("/main.fxml"));
+  private void pantailaKargatu() throws IOException {
+    FXMLLoader loaderMain = new FXMLLoader(getClass().getResource("/sample.fxml"));
     mainUI = (Parent) loaderMain.load();
-    mainKud = loaderMain.getController();
-    mainKud.setMainApp(this);
-  }
+    mainkud = loaderMain.getController();
+    mainkud.setMainApp(this);
 
+    FXMLLoader loaderinfo=new FXMLLoader(getClass().getResource("/informazio.fxml"));
+    informazioaUI = (Parent) loaderinfo.load();
+    informaziokud = loaderinfo.getController();
+    informaziokud.setMainApp(this);
+
+
+  }
 
   public static void main(String[] args) {
     launch(args);
   }
+//  public void mainErakutsi(){
+//      liburuScene=new Scene(mainUI);
+//      stage.setScene(liburuScene);
+//      //stage.setScene(new Scene(mainUI));
+//      stage.show();
+//  }
+//  public void infoErakutsi(Details xehetasunak,Image irudia) throws IOException{
+//      liburuScene=new Scene(informazioaUI);
+//      stage.setScene(liburuScene);
+//      //stage.setScene(new Scene(informazioaUI));
+//      stage.show();
+//      informaziokud.informazioa_jarri(xehetasunak,irudia);
+//  }
 
-  public void mainErakutsi() {
+  public Parent mainErakutsi() {
     stage.setScene(new Scene(mainUI));
     stage.show();
+    return stage.getScene().getRoot();
   }
+
+  public Parent infoErakutsi(Details xehetasunak, Image irudia) throws IOException {
+    stage.setScene(new Scene(informazioaUI));
+    stage.show();
+    informaziokud.informazioa_jarri(xehetasunak,irudia);
+    return stage.getScene().getRoot();
+  }
+
 }
+//https://openlibrary.org/api/books?bibkeys=ISBN:1491910399&jscmd=details&format=json"

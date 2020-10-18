@@ -1,51 +1,51 @@
-package ehu.isad.controller;
+package ehu.isad.controllers;
 
+import ehu.isad.Details;
 import ehu.isad.Main;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.Arrays;
 
-public class KautotuKud implements Initializable {
-
-  // Reference to the main application.
-  private Main mainApp;
-
-  @FXML
-  private ComboBox comboZerbitzua;
-
-  @FXML
-  private TextField txtErabiltzaile;
-
-  @FXML
-  private TextField txtPasahitza;
-
-  public void setMainApp(Main main) {
-    this.mainApp = main;
+public class InformazioKud {
+  private Main main_app;
+  public void setMainApp(Main main){
+    this.main_app=main;
   }
 
+  public void informazioa_jarri(Details xehetasunak, Image irudia){
+    izena_label.setText(xehetasunak.title);
+    argitaletxea_label.setText(Arrays.toString(xehetasunak.publishers));
+    orrialde_label.setText(xehetasunak.number_of_pages.toString());
+    irudi_taula.setImage(irudia);
+  }
   @FXML
-  public void onClick(ActionEvent actionEvent) {
-    System.out.println(txtErabiltzaile.getText() + ":" + txtPasahitza.getText());
-    System.out.println(comboZerbitzua.getValue());
+  private AnchorPane bigarren_leihoa;
+  @FXML
+  private Label izena_label;
 
-    if ("Flickr".equals(comboZerbitzua.getValue()) &&
-        "juanan".equals(txtErabiltzaile.getText()) &&
-        "pereira".equals(txtPasahitza.getText())) {
+  @FXML
+  private Button atzera_button;
 
-      mainApp.mainErakutsi();
-    }
+  @FXML
+  private Label argitaletxea_label;
+
+  @FXML
+  private Label orrialde_label;
+
+  @FXML
+  private ImageView irudi_taula;
+  @FXML
+  void bueltatu_hasierara(ActionEvent event) {
+    atzera_button.getScene().setRoot(main_app.mainErakutsi());
+    //main_app.mainErakutsi();
+
   }
 
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    comboZerbitzua.getItems().add(0,"Dropbox");
-  }
 
 }
