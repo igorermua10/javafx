@@ -32,6 +32,15 @@ public class KautotuKud implements Initializable {
         this.mainApp = main;
     }
 
+
+    @FXML
+    void ezabatu(ActionEvent event) {
+        String aukera=comboZerbitzua.getValue().toString();
+        comboZerbitzua.getItems().remove(aukera);
+        ZerbitzuKud zk=ZerbitzuKud.getInstance();
+        zk.kenduDatuBasetik(aukera);
+
+    }
     @FXML
     public void onClick(ActionEvent actionEvent) {
         System.out.println(txtErabiltzaile.getText() + ":" + txtPasahitza.getText());
